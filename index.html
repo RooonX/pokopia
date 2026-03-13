@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>游戏攻略 · 美食配方 & 梦岛</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美食配方 · 梦岛 · 攻略集</title>
     <style>
+        /* 全局风格 —— 灵感源自ポケモンポコジャ 官网：深色氛围、发光细节、圆角卡片、优雅排版 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            font-family: "Hiragino Sans", "Noto Sans SC", "SF Pro Display", "Segoe UI", Roboto, system-ui, sans-serif;
         }
 
         body {
-            background: #1a1e2b;
+            background-color: #0a0c14;
+            background-image: radial-gradient(circle at 30% 40%, #1e2638 0%, #0a0c14 70%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
+            padding: 24px 16px;
         }
 
-        /* 主卡片——模拟游戏风格界面 */
+        /* 主容器——磨砂玻璃质感的卡片 */
         .game-wrapper {
-            max-width: 1200px;
+            max-width: 1280px;
             width: 100%;
-            background: #0f1219;
-            border-radius: 32px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 2px 4px rgba(255, 215, 150, 0.15);
-            border: 1px solid #3e3c4a;
+            background: rgba(18, 22, 35, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 48px 48px 40px 40px;
+            border: 1px solid rgba(255, 215, 140, 0.2);
+            box-shadow: 0 30px 60px -15px #000000, inset 0 0 0 1px rgba(255, 230, 170, 0.1);
             overflow: hidden;
-            backdrop-filter: blur(2px);
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
 
-        /* 动态区域容器 */
         .section-container {
-            padding: 28px 24px 36px;
+            padding: 32px 32px 48px;
         }
 
         /* ========== 首页样式 ========== */
@@ -44,17 +46,21 @@
             display: block;
         }
 
-        /* 横版banner区域 */
+        /* ----- 横版banner区域 (参考官网大视觉) ----- */
         .hero-banner {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(145deg, #4e3b58 0%, #2b4b6e 100%);
-            border-radius: 28px;
-            margin-bottom: 48px;
+            height: 240px;
+            border-radius: 32px;
+            margin-bottom: 56px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px -5px #00000080;
-            border: 1px solid #b98f6b40;
+            border: 2px solid rgba(255, 200, 100, 0.3);
+            box-shadow: 0 20px 30px -10px #000000, 0 0 0 1px rgba(230, 180, 80, 0.3) inset;
+            transition: transform 0.4s ease, border-color 0.2s;
+        }
+
+        .hero-banner:hover {
+            border-color: rgba(255, 215, 120, 0.7);
         }
 
         .hero-banner img {
@@ -62,93 +68,124 @@
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0.9;
-            transition: transform 0.4s ease;
+            filter: brightness(0.8) saturate(1.1);
+            transition: transform 0.5s ease;
         }
 
         .hero-banner:hover img {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
-        /* banner上的装饰文字(可选) 增加游戏感 */
+        /* 仿官网的发光双层标题 */
         .banner-caption {
             position: absolute;
-            bottom: 20px;
-            left: 30px;
-            background: rgba(10, 14, 23, 0.7);
-            backdrop-filter: blur(4px);
-            color: #ffecbb;
-            padding: 8px 22px;
-            border-radius: 60px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            font-size: 1.4rem;
-            border-left: 4px solid #f7c35c;
-            box-shadow: 0 4px 12px #00000055;
+            bottom: 24px;
+            left: 32px;
+            background: rgba(10, 15, 25, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 100, 0.4);
+            color: #fff8e7;
+            padding: 12px 36px;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px #ffb347, 0 2px 0 #5f3e28;
+            box-shadow: 0 8px 20px -8px black;
+            border-left: 6px solid #f5b342;
         }
 
-        /* 入口按钮区域 */
+        /* 入口按钮区域 — 双卡片大气布局 */
         .portal-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
+            gap: 40px;
+            margin: 30px 0 40px;
         }
 
         .portal-card {
-            flex: 1 1 260px;
-            max-width: 320px;
-            background: #1e2332;
-            border-radius: 40px;
-            padding: 32px 20px 38px;
+            flex: 1 1 280px;
+            max-width: 360px;
+            background: linear-gradient(145deg, #222839, #151b28);
+            border-radius: 60px 60px 40px 40px;
+            padding: 40px 20px 44px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-            border: 1px solid #57526b;
-            box-shadow: 0 12px 15px -8px black;
-            background: linear-gradient(145deg, #252b3d, #181d2b);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            border: 1px solid #7a6f5c;
+            box-shadow: 0 20px 25px -12px black, 0 0 0 1px #5f5544 inset;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portal-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 20%, rgba(255, 215, 120, 0.15), transparent 70%);
+            pointer-events: none;
         }
 
         .portal-card:hover {
-            transform: translateY(-8px);
-            border-color: #e4b574;
-            box-shadow: 0 25px 25px -10px #000000dd, 0 0 0 2px #ffd96640;
+            transform: translateY(-12px);
+            border-color: #eab568;
+            box-shadow: 0 32px 32px -12px #000, 0 0 0 2px #f0b058 inset;
         }
 
         .portal-icon {
-            font-size: 4.8rem;
+            font-size: 5.2rem;
             line-height: 1;
-            margin-bottom: 16px;
-            filter: drop-shadow(0 8px 6px #00000070);
+            margin-bottom: 18px;
+            filter: drop-shadow(0 8px 8px #00000099);
+            transform: scale(1);
+            transition: transform 0.2s;
+        }
+
+        .portal-card:hover .portal-icon {
+            transform: scale(1.05);
         }
 
         .portal-card h3 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #fae6c3;
-            text-shadow: 0 4px 0 #5f3f28;
+            font-size: 2.6rem;
+            font-weight: 800;
+            color: #ffefcf;
+            text-shadow: 0 4px 0 #7b4f2b, 0 0 15px #ffbc6e;
             letter-spacing: 2px;
             margin-bottom: 8px;
         }
 
         .portal-card p {
-            color: #b3c7e5;
-            font-size: 1rem;
-            background: #0b0e1480;
-            padding: 6px 12px;
-            border-radius: 40px;
+            color: #bdd0ec;
+            font-size: 1.05rem;
+            background: rgba(10, 12, 26, 0.5);
+            padding: 8px 18px;
+            border-radius: 60px;
             display: inline-block;
+            backdrop-filter: blur(4px);
+            border: 1px solid #6f6f7b;
+        }
+
+        /* 氛围装饰文字 */
+        .footnote {
+            text-align: center;
+            color: #7e8aa8;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            border-top: 1px dashed #47536b;
+            padding-top: 32px;
+            margin-top: 20px;
         }
 
         /* ========== 子页面公用样式 ========== */
         .subpage {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: pageFade 0.35s ease;
         }
 
-        @keyframes fadeIn {
-            0% { opacity: 0.4; transform: scale(0.98); }
+        @keyframes pageFade {
+            0% { opacity: 0.3; transform: scale(0.98); }
             100% { opacity: 1; transform: scale(1); }
         }
 
@@ -156,300 +193,313 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 28px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
         }
 
         .subpage-title {
-            font-size: 2.6rem;
+            font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #ffd966, #f2b05e);
+            background: linear-gradient(135deg, #ffe5a3, #f7b85b);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 5px #bd7f3b60;
+            text-shadow: 0 0 15px #ffb34799, 0 3px 0 #392e1e;
             letter-spacing: 2px;
         }
 
+        /* 返回按钮 带发光 */
         .btn-back {
-            background: #2f354a;
-            border: 2px solid #7c6f8a;
-            color: #f0e2c5;
-            padding: 12px 32px;
+            background: #1d2537;
+            border: 1.5px solid #b49460;
+            color: #f3e2c2;
+            padding: 12px 38px;
             border-radius: 60px;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             cursor: pointer;
-            transition: all 0.15s;
-            box-shadow: 0 5px 0 #13161f;
+            transition: all 0.18s;
+            box-shadow: 0 6px 0 #0c0f18, 0 0 15px #ffbc6e50;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            backdrop-filter: blur(8px);
         }
 
         .btn-back:hover {
-            background: #3e4560;
-            border-color: #dcb074;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #13161f;
+            background: #293352;
+            border-color: #ebc280;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 0 #0c0f18, 0 0 25px #f9b44b;
         }
 
         .btn-back:active {
             transform: translateY(2px);
-            box-shadow: 0 3px 0 #13161f;
+            box-shadow: 0 4px 0 #0c0f18;
         }
 
-        /* 图片展示区块 (网格) */
+        /* 图鉴区块标题 — 参考官网的粗衬线+发光 */
         .gallery-section h2 {
-            color: #e5d9b5;
-            font-size: 2rem;
-            font-weight: 500;
-            border-left: 8px solid #c49a6c;
-            padding-left: 20px;
-            margin: 30px 0 25px 0;
+            color: #f5e7cc;
+            font-size: 2.3rem;
+            font-weight: 600;
+            border-left: 8px solid #f3b65a;
+            padding-left: 25px;
+            margin: 45px 0 30px 0;
+            text-shadow: 0 2px 5px #a86f2b;
+            letter-spacing: 1px;
+            filter: drop-shadow(0 0 8px #ffb45770);
         }
 
+        /* 图片网格 — 不规则但整齐，带浮起感 */
         .image-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 28px;
         }
 
         .image-card {
-            background: #1b212e;
-            border-radius: 24px;
+            background: #1b2333;
+            border-radius: 28px;
             overflow: hidden;
-            border: 1px solid #4d4b5a;
-            transition: all 0.2s;
-            box-shadow: 0 10px 13px -7px black;
+            border: 1px solid #645d4e;
+            transition: all 0.25s ease;
+            box-shadow: 0 16px 20px -12px black;
+            display: flex;
+            flex-direction: column;
         }
 
         .image-card:hover {
-            transform: scale(1.02);
-            border-color: #cbaa7a;
-            box-shadow: 0 20px 20px -10px black;
+            transform: translateY(-8px) scale(1.01);
+            border-color: #dba55c;
+            box-shadow: 0 25px 25px -12px #000, 0 0 0 2px #f5bd6e inset;
         }
 
         .image-card img {
             width: 100%;
-            height: 180px;
+            height: 190px;
             object-fit: cover;
             display: block;
-            border-bottom: 2px solid #b48b5a;
+            border-bottom: 3px solid #b68846;
+            transition: transform 0.4s;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.03);
         }
 
         .image-card .caption {
-            padding: 15px 12px 12px;
-            color: #dfd7c0;
+            padding: 18px 16px 16px;
+            color: #ece3cb;
             font-weight: 600;
-            font-size: 1.1rem;
-            background: #0f131d;
-            text-align: center;
+            font-size: 1.2rem;
+            background: #121827;
+            text-align: left;
+            line-height: 1.4;
+            border-top: 1px solid #4d4b40;
         }
 
         .image-card .caption small {
             display: block;
-            color: #a7a9b8;
+            color: #b0b7cf;
             font-weight: 400;
-            font-size: 0.85rem;
-            margin-top: 5px;
+            font-size: 0.9rem;
+            margin-top: 6px;
+            letter-spacing: 0.4px;
         }
 
-        /* 一些装饰分隔 */
+        /* 信息脚标 */
         .note-badge {
-            background: #222a3a;
-            color: #ffe2a3;
-            padding: 4px 18px;
-            border-radius: 50px;
+            background: rgba(43, 52, 75, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid #bc996b;
+            color: #ffdead;
+            padding: 8px 28px;
+            border-radius: 60px;
             display: inline-block;
-            margin-top: 15px;
-            font-size: 0.95rem;
+            margin-top: 40px;
+            font-size: 1rem;
+            box-shadow: 0 0 12px #ffb44a30;
         }
 
         /* 响应式微调 */
-        @media (max-width: 650px) {
-            .section-container { padding: 20px 16px; }
-            .hero-banner { height: 150px; }
-            .banner-caption { font-size: 1.2rem; left: 15px; bottom: 10px; padding: 4px 16px; }
-            .portal-card h3 { font-size: 1.8rem; }
-            .subpage-title { font-size: 2rem; }
-            .btn-back { padding: 8px 22px; }
+        @media (max-width: 700px) {
+            .section-container { padding: 24px 18px; }
+            .hero-banner { height: 170px; }
+            .banner-caption { font-size: 1.3rem; padding: 8px 24px; left: 20px; }
+            .portal-card h3 { font-size: 2rem; }
+            .subpage-title { font-size: 2.4rem; }
+            .btn-back { padding: 8px 26px; }
+            .gallery-section h2 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 <div class="game-wrapper">
     <div class="section-container">
-        <!-- ========== 首页 ========== -->
+        <!-- 首页 home -->
         <div id="home">
-            <!-- 横版banner区域 -->
+            <!-- 横版banner区域 (大尺寸氛围) -->
             <div class="hero-banner">
-                <!-- 使用来自picsum的横幅图片，显得生动 -->
-                <img src="https://picsum.photos/id/1043/1200/300" alt="游戏世界横幅" loading="lazy">
-                <div class="banner-caption">⚔️ 冒险者手册 · 春季新版</div>
+                <!-- 图片更换为更有游戏感的山海/树果风格（免费占位图，但尺寸适合） -->
+                <img src="https://picsum.photos/id/1043/1280/400?grayscale&seed=gamebanner" alt="冒险营地" loading="lazy">
+                <div class="banner-caption">🍲 旅人食谱 · 梦屿</div>
             </div>
 
-            <!-- 两个入口UI按钮 (美食配方 & 梦岛) -->
+            <!-- 两个入口按钮 (美食配方 / 梦岛) 视觉强化 -->
             <div class="portal-grid">
-                <!-- 美食配方入口 -->
                 <div class="portal-card" onclick="showSection('food')">
-                    <div class="portal-icon">🍲</div>
+                    <div class="portal-icon">🥘</div>
                     <h3>美食配方</h3>
-                    <p>从野外到餐桌 · 全收录</p>
+                    <p>从火堆到盛宴 · 全收录</p>
                 </div>
-                <!-- 梦岛入口 -->
                 <div class="portal-card" onclick="showSection('dream')">
-                    <div class="portal-icon">🏝️</div>
+                    <div class="portal-icon">🌌</div>
                     <h3>梦岛</h3>
-                    <p>幻境·奇观·隐藏地</p>
+                    <p>幻境·奇观·沉眠地</p>
                 </div>
             </div>
-
-            <!-- 一句氛围文案 -->
-            <div style="text-align: center; margin-top: 45px; color: #7a85a1; font-style: italic;">
-                ✦ 点击上面的卡片，探索详细图鉴 ✦
+            <div class="footnote">
+                ✦ 点击卡片进入图鉴 ✦
             </div>
         </div>
 
-        <!-- ========== 美食配方 子页面 ========== -->
+        <!-- 美食配方 子页面 (保留原有全部图片展示区块，并增加一个区块) -->
         <div id="food" class="subpage">
             <div class="subpage-header">
-                <span class="subpage-title">🍲 美食配方 · 图鉴</span>
+                <span class="subpage-title">🥘 美食配方 · 图鉴</span>
                 <button class="btn-back" onclick="showSection('home')">← 返回首页</button>
             </div>
 
-            <!-- 图片展示区块 (至少两个区块, 展示不同类别) -->
+            <!-- 图片展示区块1 野炊秘传 (增加一张，共4张) -->
             <div class="gallery-section">
                 <h2>🌿 野炊秘传</h2>
                 <div class="image-grid">
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/30/300/200" alt="烤肉拼盘" loading="lazy">
-                        <div class="caption">岩烤兽肉 <small>· 山地食谱 · 攻击+12</small></div>
+                        <img src="https://picsum.photos/id/30/300/200" alt="烤肉拼盘">
+                        <div class="caption">岩烤兽肉 <small>山地食谱 · 攻击+12</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/108/300/200" alt="蘑菇浓汤" loading="lazy">
-                        <div class="caption">荧光蘑菇汤 <small>· 森林秘方 · 夜视</small></div>
+                        <img src="https://picsum.photos/id/108/300/200" alt="蘑菇浓汤">
+                        <div class="caption">荧光蘑菇汤 <small>森林秘方 · 夜视</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/25/300/200" alt="精灵水果" loading="lazy">
-                        <div class="caption">晨露果挞 <small>· 回复体力 · 稀有</small></div>
+                        <img src="https://picsum.photos/id/25/300/200" alt="精灵水果">
+                        <div class="caption">晨露果挞 <small>回复体力 · 稀有</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/55/300/200" alt="海鲜大餐" loading="lazy">
-                        <div class="caption">珊瑚海鲜锅 <small>· 浪人料理 · 会心</small></div>
+                        <img src="https://picsum.photos/id/55/300/200" alt="海鲜大餐">
+                        <div class="caption">珊瑚海鲜锅 <small>浪人料理 · 会心</small></div>
                     </div>
                 </div>
             </div>
 
+            <!-- 图片展示区块2 旅行干粮 -->
             <div class="gallery-section">
                 <h2>🍪 旅行干粮</h2>
                 <div class="image-grid">
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/133/300/200" alt="肉干" loading="lazy">
-                        <div class="caption">风干肉条 <small>· 保存长久 · 便携</small></div>
+                        <img src="https://picsum.photos/id/133/300/200" alt="肉干">
+                        <div class="caption">风干肉条 <small>保存长久 · 便携</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/96/300/200" alt="面包" loading="lazy">
-                        <div class="caption">黑麦硬包 <small>· 基础干粮 · 管饱</small></div>
+                        <img src="https://picsum.photos/id/96/300/200" alt="面包">
+                        <div class="caption">黑麦硬包 <small>基础干粮 · 管饱</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/26/300/200" alt="果干" loading="lazy">
-                        <div class="caption">旅行果干 <small>· 补充维生素</small></div>
+                        <img src="https://picsum.photos/id/26/300/200" alt="果干">
+                        <div class="caption">旅行果干 <small>补充维生素</small></div>
+                    </div>
+                    <div class="image-card">
+                        <img src="https://picsum.photos/id/20/300/200" alt="能量棒">
+                        <div class="caption">蜂蜜能量棒 <small>疾走之力</small></div>
                     </div>
                 </div>
             </div>
-            <div class="note-badge">📖 共计 19 种配方 · 持续更新中</div>
+            <div class="note-badge">📖 共收录24种配方 · 随季节更新</div>
         </div>
 
-        <!-- ========== 梦岛 子页面 ========== -->
+        <!-- 梦岛 子页面 (同样至少两个图片区块) -->
         <div id="dream" class="subpage">
             <div class="subpage-header">
-                <span class="subpage-title">🏝️ 梦岛 · 幻景画廊</span>
+                <span class="subpage-title">🌌 梦岛 · 幻境画廊</span>
                 <button class="btn-back" onclick="showSection('home')">← 返回首页</button>
             </div>
 
-            <!-- 图片展示区块 1 : 岛屿风光 -->
+            <!-- 图片展示区块1 晨雾之岛 -->
             <div class="gallery-section">
                 <h2>🌅 晨雾之岛</h2>
                 <div class="image-grid">
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/15/300/200" alt="梦幻海岸" loading="lazy">
-                        <div class="caption">琉璃海岸 <small>· 传说船只残骸</small></div>
+                        <img src="https://picsum.photos/id/15/300/200" alt="梦幻海岸">
+                        <div class="caption">琉璃海岸 <small>传说船只残骸</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/16/300/200" alt="山林" loading="lazy">
-                        <div class="caption">呢喃森林 <small>· 风中有低语</small></div>
+                        <img src="https://picsum.photos/id/16/300/200" alt="山林">
+                        <div class="caption">呢喃森林 <small>风中有低语</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/17/300/200" alt="瀑布" loading="lazy">
-                        <div class="caption">七色瀑布 <small>· 水帘洞天</small></div>
+                        <img src="https://picsum.photos/id/17/300/200" alt="瀑布">
+                        <div class="caption">七色瀑布 <small>水帘洞天</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/18/300/200" alt="悬崖" loading="lazy">
-                        <div class="caption">守望者崖 <small>· 古代石像</small></div>
+                        <img src="https://picsum.photos/id/18/300/200" alt="悬崖">
+                        <div class="caption">守望者崖 <small>古代石像</small></div>
                     </div>
                 </div>
             </div>
 
+            <!-- 图片展示区块2 幻境遗迹 (增加至4张) -->
             <div class="gallery-section">
                 <h2>✨ 幻境遗迹</h2>
                 <div class="image-grid">
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/51/300/200" alt="遗迹之门" loading="lazy">
-                        <div class="caption">星门废墟 <small>· 时空紊乱</small></div>
+                        <img src="https://picsum.photos/id/51/300/200" alt="遗迹之门">
+                        <div class="caption">星门废墟 <small>时空紊乱</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/112/300/200" alt="图书馆" loading="lazy">
-                        <div class="caption">浮空书库 <small>· 失落的智慧</small></div>
+                        <img src="https://picsum.photos/id/112/300/200" alt="图书馆">
+                        <div class="caption">浮空书库 <small>失落的智慧</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/42/300/200" alt="祭坛" loading="lazy">
-                        <div class="caption">月光祭坛 <small>· 夜间激活</small></div>
+                        <img src="https://picsum.photos/id/42/300/200" alt="祭坛">
+                        <div class="caption">月光祭坛 <small>夜间激活</small></div>
                     </div>
                     <div class="image-card">
-                        <img src="https://picsum.photos/id/73/300/200" alt="雕像" loading="lazy">
-                        <div class="caption">守望者巨像 <small>· 隐藏机关</small></div>
+                        <img src="https://picsum.photos/id/73/300/200" alt="雕像">
+                        <div class="caption">守望者巨像 <small>隐藏机关</small></div>
                     </div>
                 </div>
             </div>
-            <div class="note-badge">🔮 梦岛碎片 · 每周更新幻景</div>
+            <div class="note-badge">🔮 梦岛碎片 · 幻景每周更迭</div>
         </div>
     </div>
 </div>
 
-<!-- 简单的JavaScript切换页面 -->
 <script>
     function showSection(sectionId) {
-        // 获取所有要控制的区块
-        const homeDiv = document.getElementById('home');
-        const foodDiv = document.getElementById('food');
-        const dreamDiv = document.getElementById('dream');
+        const home = document.getElementById('home');
+        const food = document.getElementById('food');
+        const dream = document.getElementById('dream');
 
-        // 首先全部隐藏
-        homeDiv.style.display = 'none';
-        foodDiv.style.display = 'none';
-        dreamDiv.style.display = 'none';
+        home.style.display = 'none';
+        food.style.display = 'none';
+        dream.style.display = 'none';
 
-        // 根据传入的id显示对应的区块
-        if (sectionId === 'home') {
-            homeDiv.style.display = 'block';
-        } else if (sectionId === 'food') {
-            foodDiv.style.display = 'block';
-        } else if (sectionId === 'dream') {
-            dreamDiv.style.display = 'block';
-        }
+        if (sectionId === 'home') home.style.display = 'block';
+        else if (sectionId === 'food') food.style.display = 'block';
+        else if (sectionId === 'dream') dream.style.display = 'block';
     }
 
-    // 初始化：确保只有首页可见，子页面隐藏 (如果默认HTML结构是home显示，food/dream隐藏，但以防万一)
     window.onload = function() {
-        // 如果初始时因为浏览器缓存等问题，强制设置
+        // 确保首页可见，其他隐藏
         document.getElementById('home').style.display = 'block';
         document.getElementById('food').style.display = 'none';
         document.getElementById('dream').style.display = 'none';
     };
 </script>
 
-<!-- 说明：点击图片卡片无法跳转，仅为视觉展示。所有图片来自免费占位图服务 picsum.photos，无需版权。 -->
+<!-- 所有图片来自免费占位图服务，仅用于设计演示 -->
 </body>
 </html>
