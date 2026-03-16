@@ -7,27 +7,27 @@
   "posts": [
     {
       "id": 1,
-      "title": "春日野餐攻略",
-      "desc": "超全的春日野餐清单，拍照超出片！",
-      "coverImg": "https://picsum.photos/seed/post1/600/700",
-      "avatar": "https://picsum.photos/seed/avatar1/100/100",
-      "nickname": "野餐小达人",
+      "title": "Pokopia全玩偶获取及特殊功能汇总",
+      "desc": "Pokopia全玩偶获取位置及梦岛对应一览表",
+      "coverImg": "https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/images/post-covers/post-cover-xhs-01.jpg",
+      "avatar": "https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/images/avatars/avatar-xhsi-01.jpg",
+      "nickname": "Eungyo",
       "platform": "小红书",
-      "category": "旅行",
-      "likeCount": 128,
-      "link": "https://xiaohongshu.com/post/1",
-      "isTop": true
+      "category": "梦岛",
+      "likeCount": 2459,
+      "link": "https://www.xiaohongshu.com/explore/69aed44c000000001a0245e7",
+      "isTop": false
     },
     {
       "id": 2,
-      "title": "平价口红推荐",
-      "desc": "学生党必入的5支平价口红，显白不挑皮！",
-      "coverImg": "https://picsum.photos/seed/post2/600/700",
-      "avatar": "https://picsum.photos/seed/avatar2/100/100",
-      "nickname": "美妆小丸子",
+      "title": "Pokopia汉堡排全配方及隐藏机制🍔",
+      "desc": "Pokopia食谱全配方及隐藏机制-汉堡排篇🍔",
+      "coverImg": "https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/images/post-covers/%E3%80%90%E9%80%9F%E6%9F%A5%E3%80%91Pokopia%E6%B1%89%E5%A0%A1%E6%8E%92%E5%85%A8%E9%85%8D%E6%96%B9%E5%8F%8A%E9%9A%90%E8%97%8F%E6%9C%BA%E5%88%B6%20-%20%E5%B0%8F%E7%BA%A2%E4%B9%A6.png",
+      "avatar": "https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/images/avatars/avatar-xhsi-01.jpg",
+      "nickname": "Eungyo",
       "platform": "小红书",
-      "category": "美妆",
-      "likeCount": 89,
+      "category": "食谱",
+      "likeCount": 1359,
       "link": "https://xiaohongshu.com/post/2",
       "isTop": false
     }
