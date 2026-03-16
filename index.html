@@ -24,7 +24,7 @@
             background-blend-mode: overlay;
         }
 
-        /* 新增：全局容器（保证Banner/公告无缝适配） */
+        /* 全局容器（保证Banner/公告无缝适配） */
         .global-container {
             width: 100%;
             max-width: 100%;
@@ -32,7 +32,7 @@
             margin: 0 auto;
         }
 
-        /* 新增：Banner图区域（无缝适配核心） */
+        /* Banner图区域（无缝适配核心） */
         .banner-container {
             width: 100%;
             overflow: hidden;
@@ -117,7 +117,7 @@
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            margin: 15px 0; /* 仅保留和瀑布流的间距 */
+            margin: 10px 0; /* 缩小和瀑布流的间距 */
             scrollbar-width: none; /* 隐藏滚动条 */
             width: 100%;
         }
@@ -139,17 +139,17 @@
             color: white;
         }
 
-        /* 瀑布流容器（核心调整：移动端两列，PC端多列） */
+        /* 瀑布流容器（核心调整：放大卡片+缩小间距） */
         .waterfall-container {
             display: grid;
-            /* PC端：最小280px一列，自动适配多列 */
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 0 20px;
+            /* PC端：放大卡片（最小320px一列），缩小间距 */
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 10px; /* 大幅缩小卡片之间的间距 */
+            padding: 0 10px; /* 缩小和页面两边的间距 */
             width: 100%;
         }
 
-        /* 图文卡片样式（核心调整：按图片宽度适配比例） */
+        /* 图文卡片样式（核心调整：放大+底部作者栏） */
         .post-card {
             background-color: white;
             border-radius: 12px;
@@ -157,13 +157,14 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s;
             cursor: pointer;
-            /* 关键：按图片宽度自适应卡片高度 */
+            /* 关键：放大卡片+调整布局 */
             display: flex;
             flex-direction: column;
             width: 100%;
+            height: 100%; /* 保证卡片高度一致 */
         }
         .post-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
         }
         /* 置顶标记（草绿色） */
         .post-card.top {
@@ -171,22 +172,23 @@
         }
         .top-tag {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 8px;
+            left: 8px;
             background-color: #669966;
             color: white;
-            font-size: 12px;
-            padding: 2px 8px;
+            font-size: 11px; /* 缩小置顶标签字体 */
+            padding: 2px 6px;
             border-radius: 4px;
             z-index: 10;
         }
-        /* 封面图（核心：完整比例展示，宽度100%） */
+        /* 封面图（核心：放大图片容器+完整比例） */
         .post-cover-wrapper {
             position: relative;
             width: 100%;
-            /* 图片容器高度自适应，保持原图比例 */
-            aspect-ratio: 1 / 1.2; /* 小红书经典图片比例，可调整 */
+            /* 放大图片区域，保持比例 */
+            aspect-ratio: 1 / 1.25; /* 略微放大图片高度 */
             overflow: hidden;
+            flex-grow: 1; /* 图片区域占满卡片剩余高度 */
         }
         .post-cover {
             width: 100%;
@@ -196,44 +198,16 @@
             transition: transform 0.3s;
         }
         .post-card:hover .post-cover {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
-        /* 作者信息（草绿色调整） */
-        .author-info {
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-shrink: 0;
-        }
-        .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 1px solid #e8f5e8;
-        }
-        .nickname {
-            font-size: 14px;
-            color: #333;
-            flex: 1;
-            font-weight: 500;
-        }
-        .platform-tag {
-            font-size: 12px;
-            padding: 2px 6px;
-            background-color: #e8f5e8; /* 浅草绿平台标签 */
-            color: #669966;
-            border-radius: 4px;
-        }
-        /* 文案区域（适配卡片宽度） */
+        /* 文案区域（适配放大的卡片） */
         .post-content {
-            padding: 0 15px 12px;
+            padding: 10px 12px;
             flex-shrink: 0;
         }
         .post-title {
-            font-size: 16px;
-            margin-bottom: 6px;
+            font-size: 15px; /* 微调标题字体 */
+            margin-bottom: 4px;
             color: #333;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -241,28 +215,58 @@
             overflow: hidden;
         }
         .post-desc {
-            font-size: 14px;
+            font-size: 13px; /* 缩小文案字体 */
             color: #666;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            line-height: 1.5;
+            line-height: 1.4;
         }
-        /* 点赞区域（核心：区分点赞前后样式） */
-        .like-area {
-            padding: 10px 15px;
+        /* 底部栏（核心：头像/昵称/点赞一排显示） */
+        .bottom-bar {
+            padding: 8px 12px;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: space-between; /* 头像昵称左，点赞右 */
             flex-shrink: 0;
             border-top: 1px solid #f5f9f0; /* 浅草绿分隔线 */
+        }
+        /* 作者信息（缩小尺寸，一排显示） */
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 6px; /* 缩小头像和昵称间距 */
+        }
+        .avatar {
+            width: 24px; /* 大幅缩小头像 */
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid #e8f5e8;
+        }
+        .nickname {
+            font-size: 12px; /* 缩小昵称字体 */
+            color: #333;
+            white-space: nowrap; /* 不换行 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 超出省略 */
+            max-width: 150px; /* 限制昵称宽度 */
+        }
+        .platform-tag {
+            display: none; /* 隐藏平台标签，节省空间（如需保留可改为font-size:10px） */
+        }
+        /* 点赞区域（缩小尺寸，和作者信息并列） */
+        .like-area {
+            display: flex;
+            align-items: center;
+            gap: 4px; /* 缩小点赞图标和数字间距 */
         }
         .like-btn {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 14px;
+            gap: 4px;
+            font-size: 12px; /* 缩小点赞字体 */
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -271,7 +275,7 @@
             color: #999;
         }
         .like-btn.unliked .like-icon {
-            font-size: 18px;
+            font-size: 14px; /* 缩小点赞图标 */
             color: #999;
         }
         .like-btn.unliked:hover .like-icon {
@@ -283,11 +287,11 @@
             font-weight: 500;
         }
         .like-btn.liked .like-icon {
-            font-size: 18px;
+            font-size: 14px; /* 缩小点赞图标 */
             color: #669966; /* 草绿色点赞态 */
         }
         .like-count {
-            font-size: 14px;
+            font-size: 12px; /* 缩小点赞数字 */
         }
 
         /* 公告弹窗（草绿色调整） */
@@ -346,11 +350,11 @@
 
         /* 响应式适配（核心调整） */
         @media (max-width: 768px) {
-            /* 移动端瀑布流强制两列 */
+            /* 移动端瀑布流强制两列 + 放大卡片 */
             .waterfall-container {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 15px;
-                padding: 0 10px;
+                gap: 8px; /* 移动端进一步缩小间距 */
+                padding: 0 8px;
             }
             /* 移动端隐藏PC Banner，显示移动端Banner */
             .banner-img.pc {
@@ -361,7 +365,7 @@
             }
             /* 移动端图片比例微调 */
             .post-cover-wrapper {
-                aspect-ratio: 1 / 1.1;
+                aspect-ratio: 1 / 1.2;
             }
             /* 移动端搜索栏/公告 padding 微调 */
             .search-bar {
@@ -373,7 +377,11 @@
             }
             .category-tabs {
                 padding: 8px 15px;
-                margin: 10px 0;
+                margin: 8px 0;
+            }
+            /* 移动端底部栏进一步缩小 */
+            .nickname {
+                max-width: 100px; /* 移动端限制昵称宽度 */
             }
         }
     </style>
@@ -478,7 +486,7 @@
             });
         }
 
-        // 3. 渲染图文卡片（核心调整：图片比例适配）
+        // 3. 渲染图文卡片（核心调整：底部作者栏+放大卡片）
         function renderPosts(posts) {
             const container = document.getElementById('postContainer');
             if (posts.length === 0) {
@@ -496,25 +504,27 @@
                         window.open(post.link, '_blank');
                     }
                 };
-                // 卡片内容（调整图片容器结构）
+                // 卡片内容（核心调整：底部作者栏+点赞并列）
                 card.innerHTML = `
                     <div class="post-cover-wrapper">
                         <img src="${post.coverImg}" alt="${post.title}" class="post-cover">
                         ${post.isTop ? '<div class="top-tag">置顶</div>' : ''}
                     </div>
-                    <div class="author-info">
-                        <img src="${post.avatar}" alt="${post.nickname}" class="avatar">
-                        <span class="nickname">${post.nickname}</span>
-                        <span class="platform-tag">${post.platform}</span>
-                    </div>
                     <div class="post-content">
                         <div class="post-title">${post.title}</div>
                         <div class="post-desc">${post.desc}</div>
                     </div>
-                    <div class="like-area">
-                        <div class="like-btn ${likedPostIds.includes(post.id) ? 'liked' : 'unliked'}" onclick="likePost(event, ${post.id})">
-                            <span class="like-icon">${likedPostIds.includes(post.id) ? '💚' : '🤍'}</span>
-                            <span class="like-count">${post.likeCount}</span>
+                    <div class="bottom-bar">
+                        <div class="author-info">
+                            <img src="${post.avatar}" alt="${post.nickname}" class="avatar">
+                            <span class="nickname">${post.nickname}</span>
+                            <span class="platform-tag">${post.platform}</span>
+                        </div>
+                        <div class="like-area">
+                            <div class="like-btn ${likedPostIds.includes(post.id) ? 'liked' : 'unliked'}" onclick="likePost(event, ${post.id})">
+                                <span class="like-icon">${likedPostIds.includes(post.id) ? '💚' : '🤍'}</span>
+                                <span class="like-count">${post.likeCount}</span>
+                            </div>
                         </div>
                     </div>
                 `;
