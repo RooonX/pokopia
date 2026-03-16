@@ -1,0 +1,68 @@
+{
+  "announcement": {
+    "title": "📢 2026.03.18 公告",
+    "content": "1. 新增「数码」分类标签；2. 热门图文点赞榜更新；3. 禁止发布无关广告内容，违规将下架～"
+  },
+  "categories": [
+    "全部",
+    "美食",
+    "旅行",
+    "美妆",
+    "数码",
+    "学习"
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "2026云南深度游避坑攻略",
+      "desc": "人均2000玩7天，大理/丽江/香格里拉全程不绕路！",
+      "coverImg": "https://picsum.photos/seed/yunnan/400/600",
+      "avatar": "https://picsum.photos/seed/avatar1/100/100",
+      "nickname": "旅行小厨娘",
+      "platform": "小红书",
+      "category": "旅行",
+      "link": "https://www.xiaohongshu.com/explore/123456",
+      "isTop": true,
+      "likeCount": 256
+    },
+    {
+      "id": 2,
+      "title": "成都本地人私藏火锅清单",
+      "desc": "8家老火锅店，人均80吃到撑，无网红溢价！",
+      "coverImg": "https://picsum.photos/seed/hotpot/400/600",
+      "avatar": "https://picsum.photos/seed/avatar2/100/100",
+      "nickname": "成都美食菌",
+      "platform": "微博",
+      "category": "美食",
+      "link": "https://weibo.com/1234567890/A1B2C3D4",
+      "isTop": false,
+      "likeCount": 189
+    },
+    {
+      "id": 3,
+      "title": "春日伪素颜妆容教程",
+      "desc": "黄皮适配！5分钟搞定，清透不卡粉～",
+      "coverImg": "https://picsum.photos/seed/makeup/400/600",
+      "avatar": "https://picsum.photos/seed/avatar3/100/100",
+      "nickname": "美妆小丸子",
+      "platform": "B站",
+      "category": "美妆",
+      "link": "https://www.bilibili.com/video/BV1234567890",
+      "isTop": false,
+      "likeCount": 321
+    },
+    {
+      "id": 4,
+      "title": "2026新款手机选购指南",
+      "desc": "1000-5000元全价位，避坑参数+实测体验！",
+      "coverImg": "https://picsum.photos/seed/phone/400/600",
+      "avatar": "https://picsum.photos/seed/avatar4/100/100",
+      "nickname": "数码测评君",
+      "platform": "小红书",
+      "category": "数码",
+      "link": "https://www.xiaohongshu.com/explore/789012",
+      "isTop": false,
+      "likeCount": 156
+    }
+  ]
+}
