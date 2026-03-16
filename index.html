@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小红书图文展示站</title>
     <style>
-        /* 全局样式：草绿色小红书风格 */
+        /* 全局样式：草绿色小红书风格 + 自定义背景图 */
         * {
             margin: 0;
             padding: 0;
@@ -13,25 +13,48 @@
             font-family: "Microsoft YaHei", Arial, sans-serif;
         }
         body {
-            background-color: #f5f9f0; /* 浅草绿背景 */
+            /* 自定义背景图 - 替换此处URL即可 */
+            background-image: url("https://picsum.photos/seed/bg/1920/1080");
+            background-repeat: repeat; /* 背景图重复平铺，可改为no-repeat */
+            background-size: cover; /* 覆盖整个页面，可改为contain/100% 100%等 */
+            background-attachment: fixed; /* 背景图固定，滚动时不移动 */
             padding-bottom: 50px;
+            /* 背景图叠加浅草绿蒙版，保证文字可读性 */
+            background-color: #f5f9f0;
+            background-blend-mode: overlay;
         }
 
-        /* 新增：Banner图区域 */
+        /* 新增：全局容器（保证Banner/公告无缝适配） */
+        .global-container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        /* 新增：Banner图区域（无缝适配核心） */
         .banner-container {
             width: 100%;
             overflow: hidden;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border-radius: 0; /* 取消圆角，实现无缝 */
+            margin-bottom: 0; /* 取消间距，和公告无缝衔接 */
         }
-        .banner-img {
+        /* PC端Banner（宽度100%，高度200px） */
+        .banner-img.pc {
             width: 100%;
-            height: auto;
+            height: 200px;
             display: block;
             object-fit: cover;
         }
+        /* 移动端Banner（宽度100%，高度120px） */
+        .banner-img.mobile {
+            width: 100%;
+            height: 120px;
+            display: none; /* 默认隐藏移动端Banner */
+            object-fit: cover;
+        }
 
-        /* 顶部搜索栏（草绿色调整） */
+        /* 顶部搜索栏（草绿色调整 + 无缝适配） */
         .search-bar {
             background-color: white;
             padding: 15px 20px;
@@ -42,7 +65,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 0; /* 取消间距，和Banner无缝衔接 */
+            width: 100%;
         }
         .search-input {
             flex: 1;
@@ -69,31 +93,33 @@
             background-color: #558055; /* 深草绿 hover */
         }
 
-        /* 公告区域（草绿色调整） */
+        /* 公告区域（草绿色调整 + 无缝适配） */
         .announcement-bar {
             background-color: #e8f5e8; /* 浅草绿公告背景 */
             color: #558055; /* 草绿色文字 */
             padding: 10px 20px;
             font-size: 14px;
-            margin: 0 0 10px 0;
-            border-radius: 8px;
+            margin: 0; /* 取消所有间距，实现无缝 */
+            border-radius: 0; /* 取消圆角 */
             cursor: pointer;
             text-align: center;
             transition: background-color 0.2s;
+            width: 100%;
         }
         .announcement-bar:hover {
             background-color: #d8eed8; /* 深一点的草绿 hover */
         }
 
-        /* 分类标签栏（草绿色调整） */
+        /* 分类标签栏（草绿色调整 + 无缝适配） */
         .category-tabs {
             background-color: white;
             padding: 10px 20px;
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            margin-bottom: 15px;
+            margin: 15px 0; /* 仅保留和瀑布流的间距 */
             scrollbar-width: none; /* 隐藏滚动条 */
+            width: 100%;
         }
         .category-tabs::-webkit-scrollbar {
             display: none;
@@ -113,12 +139,14 @@
             color: white;
         }
 
-        /* 瀑布流容器（优化间距） */
+        /* 瀑布流容器（核心调整：移动端两列，PC端多列） */
         .waterfall-container {
             display: grid;
+            /* PC端：最小280px一列，自动适配多列 */
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             padding: 0 20px;
+            width: 100%;
         }
 
         /* 图文卡片样式（核心调整：按图片宽度适配比例） */
@@ -316,47 +344,71 @@
             font-size: 16px;
         }
 
-        /* 响应式适配 */
+        /* 响应式适配（核心调整） */
         @media (max-width: 768px) {
+            /* 移动端瀑布流强制两列 */
             .waterfall-container {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
+                padding: 0 10px;
             }
+            /* 移动端隐藏PC Banner，显示移动端Banner */
+            .banner-img.pc {
+                display: none;
+            }
+            .banner-img.mobile {
+                display: block;
+            }
+            /* 移动端图片比例微调 */
             .post-cover-wrapper {
-                aspect-ratio: 1 / 1.1; /* 手机端微调比例 */
+                aspect-ratio: 1 / 1.1;
             }
-            .banner-img {
-                height: 120px; /* 手机端Banner高度 */
+            /* 移动端搜索栏/公告 padding 微调 */
+            .search-bar {
+                padding: 10px 15px;
+            }
+            .announcement-bar {
+                padding: 8px 15px;
+                font-size: 13px;
+            }
+            .category-tabs {
+                padding: 8px 15px;
+                margin: 10px 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 顶部搜索栏 -->
-    <div class="search-bar">
-        <input type="text" class="search-input" id="searchInput" placeholder="搜索关键词（标题/文案/分类）">
-        <button class="search-btn" onclick="searchPosts()">搜索</button>
-    </div>
+    <!-- 全局容器：保证所有元素宽度100%，无缝适配 -->
+    <div class="global-container">
+        <!-- 顶部搜索栏 -->
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="搜索关键词（标题/文案/分类）">
+            <button class="search-btn" onclick="searchPosts()">搜索</button>
+        </div>
 
-    <!-- 新增：Banner图区域（放在公告上方） -->
-    <div class="banner-container" style="padding: 0 20px;">
-        <!-- 替换为你的Banner图地址，建议宽度1200px左右，高度200px左右 -->
-        <img src="https://picsum.photos/seed/banner/1200/200" alt="首页Banner" class="banner-img">
-    </div>
+        <!-- Banner图区域（无缝适配 + 分尺寸） -->
+        <div class="banner-container">
+            <!-- PC端Banner（替换为你的PC版Banner地址，建议1920x200） -->
+            <img src="https://picsum.photos/seed/banner-pc/1920/200" alt="PC版Banner" class="banner-img pc">
+            <!-- 移动端Banner（替换为你的移动端Banner地址，建议750x120） -->
+            <img src="https://picsum.photos/seed/banner-mobile/750/120" alt="移动端Banner" class="banner-img mobile">
+        </div>
 
-    <!-- 公告区域 -->
-    <div class="announcement-bar" id="announcementBar" onclick="openAnnouncementModal()">
-        加载中...
-    </div>
+        <!-- 公告区域 -->
+        <div class="announcement-bar" id="announcementBar" onclick="openAnnouncementModal()">
+            加载中...
+        </div>
 
-    <!-- 分类标签栏 -->
-    <div class="category-tabs" id="categoryTabs">
-        加载中...
-    </div>
+        <!-- 分类标签栏 -->
+        <div class="category-tabs" id="categoryTabs">
+            加载中...
+        </div>
 
-    <!-- 瀑布流图文容器 -->
-    <div class="waterfall-container" id="postContainer">
-        <div class="empty-tip">加载中...</div>
+        <!-- 瀑布流图文容器 -->
+        <div class="waterfall-container" id="postContainer">
+            <div class="empty-tip">加载中...</div>
+        </div>
     </div>
 
     <!-- 公告弹窗 -->
