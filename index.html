@@ -2,53 +2,203 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的 GitHub 论坛</title>
-    <!-- 简单美化页面，新手无需修改 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的小红书 | GitHub 版</title>
     <style>
-        body {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
+        /* 全局样式：模仿小红书简约风格 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: "Microsoft YaHei", Arial, sans-serif;
         }
-        .forum-header {
+        body {
+            background-color: #f8f8f8;
+            padding-bottom: 50px;
+        }
+
+        /* 顶部导航栏 */
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h1 {
+            font-size: 20px;
+            color: #ff2442; /* 小红书红 */
             text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
         }
-        .forum-content {
-            margin: 30px 0;
-            line-height: 1.8;
+
+        /* 分类标签栏 */
+        .tags {
+            background-color: white;
+            padding: 10px 20px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            margin-bottom: 20px;
         }
-        /* 评论区间距 */
-        .giscus-container {
-            margin-top: 50px;
-            border-top: 1px solid #eee;
-            padding-top: 30px;
+        .tag {
+            padding: 5px 12px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .tag.active {
+            background-color: #ff2442;
+            color: white;
+        }
+
+        /* 笔记卡片容器：瀑布流（模仿小红书） */
+        .note-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        /* 笔记卡片样式 */
+        .note-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        .note-card:hover {
+            transform: scale(1.02);
+        }
+        .note-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover; /* 图片裁剪不拉伸 */
+        }
+        .note-content {
+            padding: 10px 15px;
+        }
+        .note-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .note-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* 最多显示2行 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .note-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #999;
+        }
+        .like-btn {
+            color: #ff2442;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 评论区样式 */
+        .comment-section {
+            max-width: 800px;
+            margin: 50px auto 0;
+            padding: 0 20px;
+        }
+        .comment-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <!-- 论坛头部 -->
-    <div class="forum-header">
-        <h1>我的简易论坛</h1>
-        <p>基于 GitHub Discussions 构建 | 无需服务器，免费使用</p>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <h1>我的小红书 · 轻量版</h1>
     </div>
 
-    <!-- 论坛说明 -->
-    <div class="forum-content">
-        <h3>📢 论坛使用说明</h3>
-        <ul>
-            <li>登录 GitHub 账号即可发帖/回复（所有内容同步到 Discussions）；</li>
-            <li>支持表情、图片、代码高亮、@他人等功能；</li>
-            <li>管理员可在仓库 Discussions 中置顶/分类/删除帖子。</li>
-        </ul>
+    <!-- 分类标签 -->
+    <div class="tags">
+        <div class="tag active">全部</div>
+        <div class="tag">美食</div>
+        <div class="tag">旅行</div>
+        <div class="tag">美妆</div>
+        <div class="tag">穿搭</div>
+        <div class="tag">学习</div>
     </div>
 
-    <!-- 👇 替换成你在 giscus 生成的代码 👇 -->
-    <div class="giscus-container">
-        <!-- 这里粘贴 giscus 生成的 <script> 代码 -->
-        <script src="https://giscus.app/client.js"
+    <!-- 笔记卡片列表 -->
+    <div class="note-container">
+        <!-- 笔记1：美食 -->
+        <div class="note-card" data-tag="美食">
+            <img src="https://picsum.photos/seed/food1/400/300" class="note-img" alt="美食笔记">
+            <div class="note-content">
+                <div class="note-title">超好吃的番茄牛腩教程🍅</div>
+                <div class="note-desc">牛腩炖得软烂入味，番茄汤汁拌米饭绝了！做法超简单，新手也能会～</div>
+                <div class="note-info">
+                    <span>发布于 2026-03-16</span>
+                    <div class="like-btn" onclick="likeThis(this)">❤️ 28</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 笔记2：旅行 -->
+        <div class="note-card" data-tag="旅行">
+            <img src="https://picsum.photos/seed/travel1/400/300" class="note-img" alt="旅行笔记">
+            <div class="note-content">
+                <div class="note-title">厦门鼓浪屿小众打卡点🌿</div>
+                <div class="note-desc">避开人群！这些角落拍照超出片，还有好吃的沙茶面和花生汤～</div>
+                <div class="note-info">
+                    <span>发布于 2026-03-15</span>
+                    <div class="like-btn" onclick="likeThis(this)">❤️ 45</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 笔记3：美妆 -->
+        <div class="note-card" data-tag="美妆">
+            <img src="https://picsum.photos/seed/makeup1/400/300" class="note-img" alt="美妆笔记">
+            <div class="note-content">
+                <div class="note-title">春日伪素颜妆容✨</div>
+                <div class="note-desc">清透底妆+淡粉色眼影，日常出门超自然，黄皮也适配～</div>
+                <div class="note-info">
+                    <span>发布于 2026-03-14</span>
+                    <div class="like-btn" onclick="likeThis(this)">❤️ 62</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 笔记4：穿搭 -->
+        <div class="note-card" data-tag="穿搭">
+            <img src="https://picsum.photos/seed/cloth1/400/300" class="note-img" alt="穿搭笔记">
+            <div class="note-content">
+                <div class="note-title">早春牛仔外套搭配👖</div>
+                <div class="note-desc">牛仔外套+碎花裙/阔腿裤，两种风格都好看，显瘦又百搭～</div>
+                <div class="note-info">
+                    <span>发布于 2026-03-13</span>
+                    <div class="like-btn" onclick="likeThis(this)">❤️ 37</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评论区（绑定 GitHub Discussions） -->
+    <div class="comment-section">
+        <h3>💬 大家的讨论区</h3>
+        <!-- 替换成你自己的 giscus 代码（之前教过的） -->
+       <script src="https://giscus.app/client.js"
         data-repo="rooonx/pokopia"
         data-repo-id="R_kgDORmC7Tw"
         data-category="General"
@@ -65,5 +215,36 @@
         async>
 </script>
     </div>
+
+    <!-- 点赞功能JS（简单实现） -->
+    <script>
+        // 点赞功能：点击后数字+1
+        function likeThis(btn) {
+            let likeNum = parseInt(btn.innerText.replace(/❤️ /, ''));
+            btn.innerText = `❤️ ${likeNum + 1}`;
+            alert('点赞成功～');
+        }
+
+        // 分类标签切换（简单实现）
+        const tags = document.querySelectorAll('.tag');
+        const noteCards = document.querySelectorAll('.note-card');
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                // 移除所有标签的active样式
+                tags.forEach(t => t.classList.remove('active'));
+                // 给当前标签加active
+                tag.classList.add('active');
+                // 筛选笔记
+                const tagName = tag.innerText;
+                noteCards.forEach(card => {
+                    if (tagName === '全部' || card.dataset.tag === tagName) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
