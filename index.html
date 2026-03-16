@@ -1,44 +1,29 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>我的简易论坛 | 基于 GitHub</title>
-    <style>
-        /* 简单美化页面 */
-        body { max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; }
-        .forum-header { text-align: center; padding: 20px; border-bottom: 1px solid #eee; }
-        .forum-content { margin-top: 20px; }
-        .post { margin-bottom: 30px; padding: 15px; border: 1px solid #eee; border-radius: 8px; }
-        .post-title { font-size: 18px; margin: 0 0 10px 0; }
-        .post-content { color: #333; line-height: 1.6; }
-    </style>
+<meta charset="utf-8">
+<title>我的简易论坛</title>
+<style>
+body{max-width:800px;margin:20px auto;padding:0 20px;font-family:Arial;}
+/* 加个提示，方便你看是否加载 */
+.utterances-container {margin-top: 50px;border-top: 1px solid #eee;padding-top: 20px;}
+</style>
 </head>
 <body>
-    <div class="forum-header">
-        <h1>我的简易论坛</h1>
-        <p>基于 GitHub Issues 构建 | 无需服务器</p>
-    </div>
+<h1>我的简易论坛</h1>
+<p>欢迎留言、发帖、交流</p>
 
-    <div class="forum-content">
-        <!-- 示例帖子 -->
-        <div class="post">
-            <h2 class="post-title">如何使用这个论坛？</h2>
-            <div class="post-content">
-                <p>1. 点击下方评论区发帖/回复</p>
-                <p>2. 所有内容会同步到 GitHub Issues</p>
-                <p>3. 需登录 GitHub 账号才能发言</p>
-            </div>
-        </div>
-    </div>
+<!-- 👇 utterances 核心代码（只改 repo 行）👇 -->
+<div class="utterances-container">
+  <script src="https://utteranc.es/client.js"
+          repo="rooonx/pokopia"  <!-- 必须改！比如 "zhangsan123/my-forum" -->
+          issue-term="title"
+          label="forum"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+  </script>
+</div>
 
-    <!-- 引入 utterances，对接 GitHub Issues 作为评论/论坛区 -->
-    <script src="https://utteranc.es/client.js"
-            repo="rooonx/pokopia"  <!-- 替换成你的仓库，比如 "xiaoming/my-forum" -->
-            issue-term="pathname"
-            label="forum"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-    </script>
 </body>
 </html>
