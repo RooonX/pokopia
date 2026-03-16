@@ -1,29 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>我的简易论坛</title>
-<style>
-body{max-width:800px;margin:20px auto;padding:0 20px;font-family:Arial;}
-/* 加个提示，方便你看是否加载 */
-.utterances-container {margin-top: 50px;border-top: 1px solid #eee;padding-top: 20px;}
-</style>
+    <meta charset="UTF-8">
+    <title>我的 GitHub 论坛</title>
+    <!-- 简单美化页面，新手无需修改 -->
+    <style>
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+        }
+        .forum-header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .forum-content {
+            margin: 30px 0;
+            line-height: 1.8;
+        }
+        /* 评论区间距 */
+        .giscus-container {
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 30px;
+        }
+    </style>
 </head>
 <body>
-<h1>我的简易论坛</h1>
-<p>欢迎留言、发帖、交流</p>
+    <!-- 论坛头部 -->
+    <div class="forum-header">
+        <h1>我的简易论坛</h1>
+        <p>基于 GitHub Discussions 构建 | 无需服务器，免费使用</p>
+    </div>
 
-<!-- 👇 utterances 核心代码（只改 repo 行）👇 -->
-<div class="utterances-container">
-  <script src="https://utteranc.es/client.js"
-          repo="rooonx/pokopia"  <!-- 必须改！比如 "zhangsan123/my-forum" -->
-          issue-term="title"
-          label="forum"
-          theme="github-light"
-          crossorigin="anonymous"
-          async>
-  </script>
-</div>
+    <!-- 论坛说明 -->
+    <div class="forum-content">
+        <h3>📢 论坛使用说明</h3>
+        <ul>
+            <li>登录 GitHub 账号即可发帖/回复（所有内容同步到 Discussions）；</li>
+            <li>支持表情、图片、代码高亮、@他人等功能；</li>
+            <li>管理员可在仓库 Discussions 中置顶/分类/删除帖子。</li>
+        </ul>
+    </div>
 
+    <!-- 👇 替换成你在 giscus 生成的代码 👇 -->
+    <div class="giscus-container">
+        <!-- 这里粘贴 giscus 生成的 <script> 代码 -->
+        <script src="https://giscus.app/client.js"
+        data-repo="rooonx/pokopia"
+        data-repo-id="R_kgDORmC7Tw"
+        data-category="General"
+        data-category-id="DIC_kwDORmC7T84C4fUy"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="1"
+        data-input-position="top"
+        data-theme="light"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+    </div>
 </body>
 </html>
