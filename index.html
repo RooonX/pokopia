@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小红书图文展示站</title>
     <style>
-        /* 全局样式：小红书风格 */
+        /* 全局样式：草绿色小红书风格 */
         * {
             margin: 0;
             padding: 0;
@@ -13,64 +13,86 @@
             font-family: "Microsoft YaHei", Arial, sans-serif;
         }
         body {
-            background-color: #f8f8f8;
+            background-color: #f5f9f0; /* 浅草绿背景 */
             padding-bottom: 50px;
         }
 
-        /* 顶部搜索栏 */
+        /* 新增：Banner图区域 */
+        .banner-container {
+            width: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* 顶部搜索栏（草绿色调整） */
         .search-bar {
             background-color: white;
             padding: 15px 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             position: sticky;
             top: 0;
             z-index: 100;
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 10px;
         }
         .search-input {
             flex: 1;
             padding: 10px 15px;
-            border: 1px solid #eee;
+            border: 1px solid #e0ebe0; /* 浅草绿边框 */
             border-radius: 20px;
             font-size: 14px;
             outline: none;
         }
+        .search-input:focus {
+            border-color: #669966; /* 草绿色聚焦边框 */
+        }
         .search-btn {
             padding: 10px 20px;
-            background-color: #ff2442;
+            background-color: #669966; /* 主草绿色 */
             color: white;
             border: none;
             border-radius: 20px;
             cursor: pointer;
             font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        .search-btn:hover {
+            background-color: #558055; /* 深草绿 hover */
         }
 
-        /* 公告区域 */
+        /* 公告区域（草绿色调整） */
         .announcement-bar {
-            background-color: #fff8e1;
-            color: #ff8c00;
+            background-color: #e8f5e8; /* 浅草绿公告背景 */
+            color: #558055; /* 草绿色文字 */
             padding: 10px 20px;
             font-size: 14px;
-            margin: 10px 0;
+            margin: 0 0 10px 0;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             transition: background-color 0.2s;
         }
         .announcement-bar:hover {
-            background-color: #fff3cd;
+            background-color: #d8eed8; /* 深一点的草绿 hover */
         }
 
-        /* 分类标签栏 */
+        /* 分类标签栏（草绿色调整） */
         .category-tabs {
             background-color: white;
             padding: 10px 20px;
             display: flex;
             gap: 15px;
             overflow-x: auto;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             scrollbar-width: none; /* 隐藏滚动条 */
         }
         .category-tabs::-webkit-scrollbar {
@@ -78,7 +100,8 @@
         }
         .tab-item {
             padding: 6px 12px;
-            background-color: #f0f0f0;
+            background-color: #e8f5e8; /* 浅草绿标签 */
+            color: #558055;
             border-radius: 20px;
             font-size: 14px;
             cursor: pointer;
@@ -86,84 +109,103 @@
             transition: all 0.2s;
         }
         .tab-item.active {
-            background-color: #ff2442;
+            background-color: #669966; /* 主草绿色激活态 */
             color: white;
         }
 
-        /* 瀑布流容器 */
+        /* 瀑布流容器（优化间距） */
         .waterfall-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
+            gap: 20px;
             padding: 0 20px;
         }
 
-        /* 图文卡片样式 */
+        /* 图文卡片样式（核心调整：按图片宽度适配比例） */
         .post-card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             transition: transform 0.2s;
             cursor: pointer;
+            /* 关键：按图片宽度自适应卡片高度 */
+            display: flex;
+            flex-direction: column;
+            width: 100%;
         }
         .post-card:hover {
-            transform: scale(1.02);
+            transform: translateY(-5px);
         }
-        /* 置顶标记 */
+        /* 置顶标记（草绿色） */
         .post-card.top {
-            border: 2px solid #ff2442;
+            border: 2px solid #669966;
         }
         .top-tag {
             position: absolute;
             top: 10px;
             left: 10px;
-            background-color: #ff2442;
+            background-color: #669966;
             color: white;
             font-size: 12px;
             padding: 2px 8px;
             border-radius: 4px;
+            z-index: 10;
         }
-        /* 封面图 */
+        /* 封面图（核心：完整比例展示，宽度100%） */
+        .post-cover-wrapper {
+            position: relative;
+            width: 100%;
+            /* 图片容器高度自适应，保持原图比例 */
+            aspect-ratio: 1 / 1.2; /* 小红书经典图片比例，可调整 */
+            overflow: hidden;
+        }
         .post-cover {
             width: 100%;
-            height: 300px;
-            object-fit: cover;
-            position: relative;
+            height: 100%;
+            object-fit: cover; /* 完整展示图片，不拉伸 */
             display: block;
+            transition: transform 0.3s;
         }
-        /* 作者信息 */
+        .post-card:hover .post-cover {
+            transform: scale(1.03);
+        }
+        /* 作者信息（草绿色调整） */
         .author-info {
-            padding: 10px 15px;
+            padding: 12px 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
         }
         .avatar {
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             object-fit: cover;
+            border: 1px solid #e8f5e8;
         }
         .nickname {
             font-size: 14px;
             color: #333;
             flex: 1;
+            font-weight: 500;
         }
         .platform-tag {
             font-size: 12px;
             padding: 2px 6px;
-            background-color: #e6f7ff;
-            color: #1890ff;
+            background-color: #e8f5e8; /* 浅草绿平台标签 */
+            color: #669966;
             border-radius: 4px;
         }
-        /* 文案区域 */
+        /* 文案区域（适配卡片宽度） */
         .post-content {
-            padding: 0 15px 10px;
+            padding: 0 15px 12px;
+            flex-shrink: 0;
         }
         .post-title {
             font-size: 16px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             color: #333;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -179,29 +221,48 @@
             overflow: hidden;
             line-height: 1.5;
         }
-        /* 点赞区域 */
+        /* 点赞区域（核心：区分点赞前后样式） */
         .like-area {
             padding: 10px 15px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
+            flex-shrink: 0;
+            border-top: 1px solid #f5f9f0; /* 浅草绿分隔线 */
         }
         .like-btn {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-size: 14px;
-            color: #999;
             cursor: pointer;
+            transition: all 0.2s;
         }
+        /* 点赞前样式 */
+        .like-btn.unliked {
+            color: #999;
+        }
+        .like-btn.unliked .like-icon {
+            font-size: 18px;
+            color: #999;
+        }
+        .like-btn.unliked:hover .like-icon {
+            color: #ff6666; /* hover时变红 */
+        }
+        /* 点赞后样式（草绿色强调） */
         .like-btn.liked {
-            color: #ff2442;
+            color: #669966;
+            font-weight: 500;
         }
-        .like-icon {
-            font-size: 16px;
+        .like-btn.liked .like-icon {
+            font-size: 18px;
+            color: #669966; /* 草绿色点赞态 */
+        }
+        .like-count {
+            font-size: 14px;
         }
 
-        /* 公告弹窗 */
+        /* 公告弹窗（草绿色调整） */
         .modal {
             position: fixed;
             top: 0;
@@ -216,37 +277,57 @@
         }
         .modal-content {
             background-color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
             width: 80%;
             max-width: 500px;
             max-height: 80vh;
             overflow-y: auto;
+            border: 1px solid #e8f5e8;
         }
         .modal-title {
             font-size: 18px;
-            color: #ff2442;
+            color: #669966; /* 草绿色标题 */
             margin-bottom: 15px;
             text-align: center;
+            font-weight: 600;
         }
         .modal-close {
             margin-top: 20px;
             padding: 8px 16px;
-            background-color: #ff2442;
+            background-color: #669966; /* 草绿色按钮 */
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             display: block;
             margin-left: auto;
+            transition: background-color 0.2s;
+        }
+        .modal-close:hover {
+            background-color: #558055;
         }
 
-        /* 空数据提示 */
+        /* 空数据提示（草绿色调整） */
         .empty-tip {
             text-align: center;
             padding: 50px 0;
-            color: #999;
+            color: #88aa88; /* 浅草绿提示文字 */
             font-size: 16px;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .waterfall-container {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 15px;
+            }
+            .post-cover-wrapper {
+                aspect-ratio: 1 / 1.1; /* 手机端微调比例 */
+            }
+            .banner-img {
+                height: 120px; /* 手机端Banner高度 */
+            }
         }
     </style>
 </head>
@@ -255,6 +336,12 @@
     <div class="search-bar">
         <input type="text" class="search-input" id="searchInput" placeholder="搜索关键词（标题/文案/分类）">
         <button class="search-btn" onclick="searchPosts()">搜索</button>
+    </div>
+
+    <!-- 新增：Banner图区域（放在公告上方） -->
+    <div class="banner-container" style="padding: 0 20px;">
+        <!-- 替换为你的Banner图地址，建议宽度1200px左右，高度200px左右 -->
+        <img src="https://picsum.photos/seed/banner/1200/200" alt="首页Banner" class="banner-img">
     </div>
 
     <!-- 公告区域 -->
@@ -285,12 +372,12 @@
         // 全局变量
         let allPosts = []; // 所有图文数据
         let allCategories = []; // 所有分类标签
-        let likedPostIds = JSON.parse(localStorage.getItem('likedPostIds')) || []; // 已点赞的帖子ID（模拟IP记录）
+        let likedPostIds = JSON.parse(localStorage.getItem('likedPostIds')) || []; // 已点赞的帖子ID
 
         // 1. 加载数据（从data.json获取）
         async function loadData() {
             try {
-                // 替换为你的GitHub仓库raw地址（关键！）
+                // 替换为你的GitHub仓库raw地址！！！
                 const response = await fetch('https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/data.json');
                 const data = await response.json();
                 
@@ -339,7 +426,7 @@
             });
         }
 
-        // 3. 渲染图文卡片
+        // 3. 渲染图文卡片（核心调整：图片比例适配）
         function renderPosts(posts) {
             const container = document.getElementById('postContainer');
             if (posts.length === 0) {
@@ -357,10 +444,10 @@
                         window.open(post.link, '_blank');
                     }
                 };
-                // 卡片内容
+                // 卡片内容（调整图片容器结构）
                 card.innerHTML = `
-                    <div class="post-cover">
-                        <img src="${post.coverImg}" alt="${post.title}" style="width:100%;height:100%;">
+                    <div class="post-cover-wrapper">
+                        <img src="${post.coverImg}" alt="${post.title}" class="post-cover">
                         ${post.isTop ? '<div class="top-tag">置顶</div>' : ''}
                     </div>
                     <div class="author-info">
@@ -373,8 +460,8 @@
                         <div class="post-desc">${post.desc}</div>
                     </div>
                     <div class="like-area">
-                        <div class="like-btn ${likedPostIds.includes(post.id) ? 'liked' : ''}" onclick="likePost(event, ${post.id})">
-                            <span class="like-icon">❤️</span>
+                        <div class="like-btn ${likedPostIds.includes(post.id) ? 'liked' : 'unliked'}" onclick="likePost(event, ${post.id})">
+                            <span class="like-icon">${likedPostIds.includes(post.id) ? '💚' : '🤍'}</span>
                             <span class="like-count">${post.likeCount}</span>
                         </div>
                     </div>
@@ -408,11 +495,12 @@
             renderPosts(filteredPosts);
         }
 
-        // 6. 点赞功能（LocalStorage模拟IP记录，单浏览器仅1次）
+        // 6. 点赞功能（区分点赞前后样式）
         function likePost(e, postId) {
             e.stopPropagation(); // 阻止冒泡到卡片跳转
             const likeBtn = e.currentTarget;
             const likeCountEl = likeBtn.querySelector('.like-count');
+            const likeIconEl = likeBtn.querySelector('.like-icon');
             
             // 已点赞则返回
             if (likedPostIds.includes(postId)) {
@@ -425,12 +513,16 @@
             post.likeCount += 1;
             likeCountEl.innerText = post.likeCount;
             
-            // 标记已点赞
+            // 切换点赞样式
+            likeBtn.classList.remove('unliked');
             likeBtn.classList.add('liked');
+            likeIconEl.innerText = '💚'; // 点赞后改为草绿色爱心
+            
+            // 标记已点赞
             likedPostIds.push(postId);
             localStorage.setItem('likedPostIds', JSON.stringify(likedPostIds));
             
-            // 重新排序渲染（点赞后按点赞数+置顶排序）
+            // 重新排序渲染
             allPosts = allPosts.sort((a, b) => {
                 if (a.isTop !== b.isTop) return a.isTop ? -1 : 1;
                 return b.likeCount - a.likeCount;
