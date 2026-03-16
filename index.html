@@ -14,7 +14,7 @@
         }
         body {
             /* 自定义背景图 - 替换此处URL即可 */
-            background-image: url("https://picsum.photos/seed/bg/1920/1080");
+            background-image: url("");
             background-repeat: repeat; /* 背景图重复平铺，可改为no-repeat */
             background-size: cover; /* 覆盖整个页面，可改为contain/100% 100%等 */
             background-attachment: fixed; /* 背景图固定，滚动时不移动 */
@@ -149,7 +149,7 @@
             width: 100%;
         }
 
-        /* 图文卡片样式（核心调整：放大+底部作者栏） */
+        /* 图文卡片样式（核心调整：放大+底部作者栏+右上角来源角标） */
         .post-card {
             background-color: white;
             border-radius: 12px;
@@ -162,6 +162,7 @@
             flex-direction: column;
             width: 100%;
             height: 100%; /* 保证卡片高度一致 */
+            position: relative; /* 新增：为角标提供定位父级 */
         }
         .post-card:hover {
             transform: translateY(-3px);
@@ -180,6 +181,32 @@
             padding: 2px 6px;
             border-radius: 4px;
             z-index: 10;
+        }
+        /* 新增：右上角来源角标样式 */
+        .source-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px; /* 右上角定位 */
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 10;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        /* 各平台角标配色（品牌色） */
+        .source-tag.xhs {
+            background-color: #fe2c55; /* 小红书红 */
+        }
+        .source-tag.wiki {
+            background-color: #3966cc; /* WIKI蓝 */
+        }
+        .source-tag.bilibili {
+            background-color: #fb7299; /* B站粉 */
+        }
+        .source-tag.weibo {
+            background-color: #e6162d; /* 微博红 */
         }
         /* 封面图（核心：放大图片容器+完整比例） */
         .post-cover-wrapper {
@@ -254,7 +281,7 @@
             max-width: 150px; /* 限制昵称宽度 */
         }
         .platform-tag {
-            display: none; /* 隐藏平台标签，节省空间（如需保留可改为font-size:10px） */
+            display: none; /* 隐藏底部平台标签，改用右上角角标 */
         }
         /* 点赞区域（缩小尺寸，和作者信息并列） */
         .like-area {
@@ -294,7 +321,7 @@
             font-size: 12px; /* 缩小点赞数字 */
         }
 
-        /* 公告弹窗（核心修改：支持图片显示） */
+        /* 公告弹窗（支持图片显示） */
         .modal {
             position: fixed;
             top: 0;
@@ -324,7 +351,7 @@
             text-align: center;
             font-weight: 600;
         }
-        /* 新增：公告内容中的图片样式 */
+        /* 公告内容中的图片样式 */
         .modal-content img {
             max-width: 100%; /* 图片宽度不超过弹窗 */
             height: auto; /* 保持比例 */
@@ -405,6 +432,11 @@
                 width: 90%;
                 padding: 15px;
             }
+            /* 移动端来源角标字体微调 */
+            .source-tag {
+                font-size: 10px;
+                padding: 1px 6px;
+            }
         }
     </style>
 </head>
@@ -466,7 +498,7 @@
                 // 加载公告（标题不变，内容支持HTML/图片）
                 document.getElementById('announcementBar').innerText = data.announcement.title;
                 document.getElementById('modalTitle').innerText = data.announcement.title;
-                // 核心修改：直接渲染HTML内容（支持图片标签）
+                // 渲染HTML内容（支持图片标签）
                 document.getElementById('modalContent').innerHTML = data.announcement.content;
                 
                 // 加载分类标签
@@ -509,7 +541,7 @@
             });
         }
 
-        // 3. 渲染图文卡片（核心调整：底部作者栏+放大卡片）
+        // 3. 渲染图文卡片（核心新增：右上角来源角标）
         function renderPosts(posts) {
             const container = document.getElementById('postContainer');
             if (posts.length === 0) {
@@ -527,8 +559,30 @@
                         window.open(post.link, '_blank');
                     }
                 };
-                // 卡片内容（核心调整：底部作者栏+点赞并列）
+
+                // 新增：根据platform字段匹配角标样式类
+                let sourceClass = '';
+                switch (post.platform) {
+                    case '小红书':
+                        sourceClass = 'xhs';
+                        break;
+                    case 'WIKI':
+                        sourceClass = 'wiki';
+                        break;
+                    case 'B站':
+                        sourceClass = 'bilibili';
+                        break;
+                    case '微博':
+                        sourceClass = 'weibo';
+                        break;
+                    default:
+                        sourceClass = 'xhs'; // 默认小红书
+                }
+
+                // 卡片内容（核心新增：右上角来源角标）
                 card.innerHTML = `
+                    <!-- 新增：来源角标 -->
+                    <div class="source-tag ${sourceClass}">${post.platform}</div>
                     <div class="post-cover-wrapper">
                         <img src="${post.coverImg}" alt="${post.title}" class="post-cover">
                         ${post.isTop ? '<div class="top-tag">置顶</div>' : ''}
@@ -575,7 +629,8 @@
                 return post.title.toLowerCase().includes(keyword) || 
                        post.desc.toLowerCase().includes(keyword) || 
                        post.category.toLowerCase().includes(keyword) ||
-                       post.nickname.toLowerCase().includes(keyword);
+                       post.nickname.toLowerCase().includes(keyword) ||
+                       post.platform.toLowerCase().includes(keyword); // 新增：支持搜索平台
             });
             renderPosts(filteredPosts);
         }
