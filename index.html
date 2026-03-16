@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokopia小队</title>
+    <title>小红书图文展示站</title>
     <style>
         /* 全局样式：草绿色小红书风格 + 自定义背景图 */
         * {
@@ -294,7 +294,7 @@
             font-size: 12px; /* 缩小点赞数字 */
         }
 
-        /* 公告弹窗（草绿色调整） */
+        /* 公告弹窗（核心修改：支持图片显示） */
         .modal {
             position: fixed;
             top: 0;
@@ -312,7 +312,7 @@
             padding: 25px;
             border-radius: 12px;
             width: 80%;
-            max-width: 500px;
+            max-width: 700px; /* 放大弹窗宽度，适配图片 */
             max-height: 80vh;
             overflow-y: auto;
             border: 1px solid #e8f5e8;
@@ -323,6 +323,23 @@
             margin-bottom: 15px;
             text-align: center;
             font-weight: 600;
+        }
+        /* 新增：公告内容中的图片样式 */
+        .modal-content img {
+            max-width: 100%; /* 图片宽度不超过弹窗 */
+            height: auto; /* 保持比例 */
+            border-radius: 8px; /* 图片圆角 */
+            margin: 10px 0; /* 图片上下间距 */
+            display: block; /* 居中显示 */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        /* 公告内容文字样式优化 */
+        .modal-content p {
+            line-height: 1.6; /* 行间距放大，更易读 */
+            margin-bottom: 10px; /* 段落间距 */
+            color: #333;
+            font-size: 14px;
         }
         .modal-close {
             margin-top: 20px;
@@ -383,6 +400,11 @@
             .nickname {
                 max-width: 100px; /* 移动端限制昵称宽度 */
             }
+            /* 移动端公告弹窗宽度放大 */
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -398,7 +420,7 @@
         <!-- Banner图区域（无缝适配 + 分尺寸） -->
         <div class="banner-container">
             <!-- PC端Banner（替换为你的PC版Banner地址，建议1920x200） -->
-            <img src="https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/banner-pc.jpg" alt="PC版Banner" class="banner-img pc">
+            <img src="https://picsum.photos/seed/banner-pc/1920/200" alt="PC版Banner" class="banner-img pc">
             <!-- 移动端Banner（替换为你的移动端Banner地址，建议750x120） -->
             <img src="https://picsum.photos/seed/banner-mobile/750/120" alt="移动端Banner" class="banner-img mobile">
         </div>
@@ -438,13 +460,14 @@
         async function loadData() {
             try {
                 // 替换为你的GitHub仓库raw地址！！！
-                const response = await fetch('https://raw.githubusercontent.com/RooonX/pokopia/refs/heads/main/data.json');
+                const response = await fetch('https://raw.githubusercontent.com/你的用户名/你的仓库名/main/data.json');
                 const data = await response.json();
                 
-                // 加载公告
+                // 加载公告（标题不变，内容支持HTML/图片）
                 document.getElementById('announcementBar').innerText = data.announcement.title;
                 document.getElementById('modalTitle').innerText = data.announcement.title;
-                document.getElementById('modalContent').innerText = data.announcement.content;
+                // 核心修改：直接渲染HTML内容（支持图片标签）
+                document.getElementById('modalContent').innerHTML = data.announcement.content;
                 
                 // 加载分类标签
                 allCategories = data.categories;
